@@ -98,7 +98,9 @@ pub fn debug(input: TokenStream) -> TokenStream {
         let _msg = format!("[Copper List Number: {}] {}", index, msg);
 
         quote! {
-            let r = log_debug_mode(&mut log_entry, #_msg, &[#(#keys),*]);
+            let log_line = line!();
+            let source_file = file!();
+            let r = log_debug_mode(&mut log_entry, #_msg, &[#(#keys),*], Some(log_line), Some(source_file));
         }
     };
 

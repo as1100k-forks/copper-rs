@@ -132,6 +132,8 @@ pub fn log_debug_mode(
     entry: &mut CuLogEntry,
     format_str: &str, // this is the missing info at runtime.
     param_names: &[&str],
+    line: Option<u32>,
+    source_file: Option<&'static str>,
 ) -> CuResult<()> {
     log(entry)?;
 
@@ -159,9 +161,8 @@ pub fn log_debug_mode(
                 .args(format_args!("{logline}"))
                 .level(log::Level::Info)
                 .target("cu29_log")
-                .module_path_static(Some("cu29_log"))
-                .file_static(Some("cu29_log"))
-                .line(Some(0))
+                .file_static(source_file)
+                .line(line)
                 .build(),
         );
     }

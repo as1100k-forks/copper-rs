@@ -38,7 +38,7 @@ pub fn debug(input: TokenStream) -> TokenStream {
     let mut exprs_iter = exprs.iter();
 
     let msg_expr = exprs_iter.next().expect("Expected at least one expression");
-    let (index, _msg) = if let Expr::Lit(ExprLit {
+    let (index, msg) = if let Expr::Lit(ExprLit {
         lit: Lit::Str(msg), ..
     }) = msg_expr
     {
@@ -94,6 +94,9 @@ pub fn debug(input: TokenStream) -> TokenStream {
                 quote!(#lit_str)
             })
             .collect();
+
+        let _msg = format!("[Copper List Number: {}] {}", index, msg);
+
         quote! {
             let r = log_debug_mode(&mut log_entry, #_msg, &[#(#keys),*]);
         }
